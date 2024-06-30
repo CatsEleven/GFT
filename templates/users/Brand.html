@@ -1,0 +1,51 @@
+{% extends 'users/base.html' %}
+{% block content %}
+    <style>
+        .clothes-headline {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .clothes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start; /* 左詰めにする */
+        }
+        .clothes li {
+            list-style: none;
+            margin: 10px;
+        }
+        .no-items {
+            text-align: center;
+            font-size: 1.5em;
+            margin-top: 50px;
+        }
+        .no-items .icon {
+            font-size: 3em;
+            margin-bottom: 20px;
+        }
+    </style>
+    <section class="section-clothes">
+        {% if items|length == 0 %}
+        <div class="no-items">
+            <div class="icon">
+                <i class="bi bi-emoji-frown"></i>
+            </div>
+            <p>商品はありません。</p>
+        </div>
+        {% else %}
+        <ul class="clothes">
+            {% for item in items %}
+            <li>
+                <a href="/Tops/{{ item.id }}">
+                    <img src="{{ url_for('static', filename='uploads/thumbnail/' ~ item.thumbnail) }}" alt="" width="100%">
+                    <div class="clothes-des">
+                        <h1>{{ item.title }}</h1>
+                        <p>¥{{ item.price }}</p>
+                    </div>
+                </a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </section>
+{% endblock %}

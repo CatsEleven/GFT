@@ -1,0 +1,10 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<h1>スーパーユーザーのトップページ</h1>
+{% if current_user.is_authenticated and current_user.id == 1 %}
+<div class="ml-auto">
+    <span class="navbar-text">スーパーユーザーでログイン中</span>
+    <a class="btn btn-outline-danger ml-2" href="{{ url_for('sudo_logout') }}">ログアウト</a>
+</div>
+{% endif %}
+{% endblock %}

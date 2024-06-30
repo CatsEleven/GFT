@@ -1,0 +1,88 @@
+{% extends 'admins/base.html' %}
+{% block content %}
+
+
+
+<div class="container mt-5">
+    <h1 class="mb-4 text-center">商品一覧</h1>
+    <table class="table table-striped text-center">
+        <thead>
+            <tr>
+                <th>商品名</th>
+                <th>本文</th>
+                <th>値段</th>
+                <th>カテゴリー</th>
+                <th>在庫数</th>
+                <th>サムネイル</th>
+                <th>画像1</th>
+                <th>画像2</th>
+                <th>状態</th>
+                <th>状態変更</th>
+                <th>商品削除</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in items %}
+            <tr>
+                <td><a href="{{ url_for('item_edit', item_id=item.id) }}">{{ item.title }}</a></td>
+                <td>{{ item.body }}</td>
+                <td>{{ item.price }}</td>
+                <td>{{ item.category }}</td>
+                <td>{{ item.stock }}</td>
+                <td><img src="{{ url_for('static', filename='uploads/thumbnail/' + item.thumbnail) }}" alt="サムネイル" width="100"></td>
+                <td><img src="{{ url_for('static', filename='uploads/image1/' + item.image1) }}" alt="画像1" width="100"></td>
+                <td>
+                    {% if item.image2 %}
+                        <img src="{{ url_for('static', filename='uploads/image2/' + item.image2) }}" alt="画像2" width="100">
+                    {% else %}
+                        no image
+                    {% endif %}
+                </td>
+                <td>
+                    {% if item.status == 0 %}
+                        販売停止
+                    {% elif item.status == 1 %}
+                        販売中
+                    {% elif item.status == 2 %}
+                        売り切れ
+                    {% endif %}
+                </td>
+                <td>
+                    <div class="status-container">
+                        {% if item.status == 0 %}
+                            <button class="btn btn-primary status-button" onclick="changeStatus('{{ item.id }}', 1)">可に変更</button>
+                        {% elif item.status == 1 %}
+                            <button class="btn btn-danger status-button" onclick="changeStatus('{{ item.id }}', 0)">不可に変更</button>
+                        {% elif item.status == 2 %}
+                        {% endif %}
+                    </div>
+                </td>
+                <td>
+                    <div class="status-container">
+                        <button class="btn btn-danger status-button" onclick="deleteItem('{{ item.id }}')">削除</button>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    th, td {
+        text-align: center;
+    }
+    td {
+        /* display: flex; */
+        justify-content: center;
+        align-items: center;
+        height: 100px; /* 高さを適宜調整 */
+    }
+    td img {
+        display: block;
+        margin: auto;
+    }
+</style>
+<script src="{{ url_for('static', filename='js/changeStatus.js') }}"></script>
+<script src="{{ url_for('static', filename='js/deleteItem.js') }}"></script>
+{% endblock %}

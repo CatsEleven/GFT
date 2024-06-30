@@ -1,0 +1,56 @@
+{% extends 'admins/base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <h1 class="text-center mb-4">商品新規登録</h1>
+            <form method="POST" enctype="multipart/form-data">
+                <div class="mb-3">
+                    <label for="name" class="form-label">商品名</label>
+                    <input type="text" name="name" id="name" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="description" class="form-label">本文</label>
+                    <textarea name="description" id="description" class="form-control" rows="5" required></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">値段</label>
+                    <input type="number" name="price" id="price" class="form-control" required min="1">
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">カテゴリー</label>
+                    <select name="category" id="category" class="form-control" required>
+                        <option value="">選択してください</option>
+                        <option value="Tops">Tops</option>
+                        <option value="T-shirts">T-shirts</option>
+                        <option value="Goods">Goods</option>
+                        <option value="Brand">Brand</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="stock" class="form-label">在庫数</label>
+                    <input type="number" name="stock" id="stock" class="form-control" required min="1">
+                </div>
+                <div class="mb-3">
+                    <label for="thumbnail" class="form-label">サムネイル</label>
+                    <input type="file" name="thumbnail" id="thumbnail" class="form-control-file" required accept=".jpg, .jpeg, .png">
+                    <small class="form-text text-muted">登録できるファイル形式: jpg, jpeg, png</small>
+                </div>
+                <div class="mb-3">
+                    <label for="image1" class="form-label">商品画像1枚目</label>
+                    <input type="file" name="image1" id="image1" class="form-control-file" required accept=".jpg, .jpeg, .png">
+                    <small class="form-text text-muted">登録できるファイル形式: jpg, jpeg, png</small>
+                </div>
+                <div class="mb-3">
+                    <label for="image2" class="form-label">商品画像2枚目（任意）</label>
+                    <input type="file" name="image2" id="image2" class="form-control-file" accept=".jpg, .jpeg, .png">
+                    <small class="form-text text-muted">登録できるファイル形式: jpg, jpeg, png</small>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary btn-block">登録する</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

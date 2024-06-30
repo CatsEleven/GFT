@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ユーザー画面</title>
+    <!-- Bootstrap CDN -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons CDN -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- ヘッダー -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{{ url_for('admin_index') }}"><i class="bi bi-wrench"></i> ユーザー画面</a>
+        {% if current_user.is_authenticated and current_user.id == 1 %}
+        <div class="ml-auto">
+            <span class="navbar-text">スーパーユーザーでログイン中</span>
+            <a class="btn btn-outline-danger ml-2" href="{{ url_for('sudo_logout') }}">ログアウト</a>
+        </div>
+        {% endif %}
+    </nav>
+    {% block content %}
+    {% endblock %}
+    <!-- BootstrapのJavaScriptと依存ライブラリ -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

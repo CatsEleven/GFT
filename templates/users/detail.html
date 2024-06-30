@@ -1,0 +1,62 @@
+{% extends 'users/base.html' %}
+{% block content %}
+    <style>
+        .product-detail-container {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 50px;
+        }
+        .product-images {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .product-images img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border: 1px solid #ddd;
+            margin-bottom: 10px;
+        }
+        .product-details {
+            flex: 2;
+            padding: 0 20px;
+        }
+        .product-details h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .product-details p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            text-align: left; /* 左揃えにする */
+        }
+        .product-details .price {
+            font-size: 1.5em;
+            color: #b12704;
+            margin-bottom: 20px;
+        }
+        .product-details .btn {
+            font-size: 1.2em;
+            padding: 10px 20px;
+        }
+    </style>
+    <div class="container">
+        <div class="product-detail-container">
+            <div class="product-images">
+                <img src="{{ url_for('static', filename='uploads/image1/' ~ item.image1) }}" alt="{{ item.title }} Image 1">
+                {% if item.image2 %}
+                    <img src="{{ url_for('static', filename='uploads/image2/' ~ item.image2) }}" alt="{{ item.title }} Image 2">
+                {% endif %}
+            </div>
+            <div class="product-details">
+                <h1>{{ item.title }}</h1>
+                <p>{{ item.body | nl2br }}</p>
+                <p>在庫数：{{ item.stock }}</p>
+                <p class="price">¥{{ item.price }}</p>
+                <a href="#" class="btn btn-primary">購入する</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GFT Shop</title>
+    <meta name="description" content="samle">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/reset.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css">
+    <link rel="stylesheet" type="text/css" href="https://coco-factory.jp/ugokuweb/wp-content/themes/ugokuweb/data/6-1-6/css/6-1-6.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/sanitize.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<style>
+    .button-container {
+        position: absolute;
+        top: 20px;
+    }
+    
+    .login-button-container {
+        right: 20px;
+    }
+    
+    .register-button-container {
+        right: 100px;
+    }
+    
+    .button {
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #fff;
+        background-color: #007bff;
+        text-decoration: none;
+        border-radius: 5px;
+        text-align: center;
+    }
+    
+    .button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<body>
+    <header class="zoom-me">
+        <img class="header-image" src="{{ url_for('static', filename='assets/header-1.jpg') }}" alt="sample">
+        <img class="header-image1" src="{{ url_for('static', filename='assets/header-2.jpg') }}" alt="sample">
+        <div class="button-container" style="position: absolute; top: 20px; right: 20px;">
+            <a href="#" class="button">ログイン</a>
+            <a href="#" class="button" style="margin-right: 10px;">新規登録</a>
+        </div>
+    </header>
+    <main role="main">
+
+
+
+
+
+
+      <div class="contained">
+        <img src="{{ url_for('static', filename='assets/logo.jpg') }}" alt="" width="200px">
+      </div>
+      
+
+
+
+
+      <div class="distance">
+        <div class="s-button">
+            <a href="./secret.html"></a>
+        </div>
+      </div>
+
+
+
+      <section>
+        <ul class="top-ul">
+            <li class="top-li"><a href="{{ url_for('index') }}" class="top-a">Tops</a></li>
+            <li class="top-li"><a href="{{ url_for('shirts') }}" class="top-a">T-shirts</a></li
+            <li class="top-li"><a href="{{ url_for('Goods') }}" class="top-a">Goods</a></li>
+            <li class="top-li"><a href="{{ url_for('Brand') }}" class="top-a">Brand</a></li>
+        </ul>
+      </section>
+
+
+
+      <div class="distance"></div>
+
+
+      {% block content %}
+      {% endblock %}
+
+     <!-- <section class="section-clothes">
+        <h1 class="clothes-headline">Green eyes works</h1>
+        <ul class="clothes">
+            <li>
+                <a href="">
+                    <img src="./assets/images/S__111501318_0.jpg" alt="" width="100%">
+                    <div class="clothes-des">
+                        <h1>original T-shirt</h1>
+                        <p>¥6,500</p>
+                    </div>
+                </a>
+            </li>
+        </ul>
+     </section> -->
+
+
+
+      <hr class="end-line"/>
+
+      <div class="distance"></div>
+
+     <footer>
+        <img src="{{ url_for('static', filename='assets/logo.jpg') }}" alt="" width="200px">
+
+        <p>
+            Tokyo meguro kamimeguro 2-44-11 <br>
+            東京都 目黒区 上目黒 2-44-11
+        </p>
+     </footer>
+
+     <div class="distance"></div>
+     
+    </main>
+</body>

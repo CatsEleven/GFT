@@ -1,0 +1,36 @@
+{% extends 'admins/base.html' %}
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4">詳細設定</h1>
+        <form method="POST" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="icon" class="form-label">アイコン</label>
+                <div class="mb-3">
+                    <img src="{{ url_for('static', filename='icons/admins/' + user.icon) }}" alt="ユーザーアイコン" width="100">
+                </div>
+                <input type="file" name="icon" id="icon" class="form-control-file" accept=".jpg, .jpeg, .png">
+                <small class="form-text text-muted">登録できるファイル形式: jpg, jpeg, png</small>
+            </div>
+            <div class="mb-3">
+                <label for="username" class="form-label">ユーザーネーム</label>
+                <input type="text" name="username" id="username" class="form-control" value="{{ user.username }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="mail" class="form-label">メールアドレス</label>
+                <input type="email" name="mail" id="mail" class="form-control" value="{{ user.mail }}" readonly>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">パスワード</label>
+                <input type="password" name="password" id="password" class="form-control" placeholder="変更する場合のみ入力">
+            </div>
+            <button type="submit" class="btn btn-primary">保存</button>
+        </form>
+    </div>
+
+    <style>
+        #password {
+            color: gray;
+        }
+    </style>
+    
+{% endblock %}
