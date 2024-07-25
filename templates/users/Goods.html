@@ -1,3 +1,6 @@
+
+
+
 {% extends 'users/base.html' %}
 {% block content %}
     <style>
@@ -13,6 +16,19 @@
         .clothes li {
             list-style: none;
             margin: 10px;
+            position: relative; /* ボタン配置のため */
+        }
+        .clothes .add-to-cart {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 5px;
         }
         .no-items {
             text-align: center;
@@ -43,6 +59,11 @@
                         <p>¥{{ item.price }}</p>
                     </div>
                 </a>
+                <form action="{{ url_for('add_to_cart') }}" method="post">
+                    <input type="hidden" name="product_id" value="{{ item.id }}">
+                    <input type="hidden" name="quantity" value="1">
+                    <button type="submit" class="add-to-cart">カートに追加</button>
+                </form>
             </li>
             {% endfor %}
         </ul>

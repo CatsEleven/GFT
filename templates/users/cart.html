@@ -1,0 +1,63 @@
+{% extends 'users/base.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ショッピングカート</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .center {
+            text-align: center;
+        }
+        .alert-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .alert-icon i {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4 center">ショッピングカート</h1>
+        
+        {% if cart|length == 0 %}
+            <div class="alert alert-info alert-icon" role="alert">
+                <i class="bi bi-info-circle-fill"></i> 現在、カートに商品はありません。
+            </div>
+        {% else %}
+            <div class="table-responsive">
+                <table class="table table-striped text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">商品ID</th>
+                            <th scope="col">数量</th>
+                            <th scope="col">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart %}
+                        <tr>
+                            <td>{{ item.product_id }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>
+                                <form action="{{ url_for('remove_from_cart') }}" method="post" class="d-inline">
+                                    <input type="hidden" name="product_id" value="{{ item.product_id }}">
+                                    <button type="submit" class="btn btn-danger btn-sm">削除</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+
+
+    </div>
+    <div class="text-center alert-icon mb-4">
+        <i class="bi bi-exclamation-triangle-fill"></i> ショッピングカート機能は、アクセスした端末・ブラウザでのみ利用可能です。
+    </div>
+{% endblock %}

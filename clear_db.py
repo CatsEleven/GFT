@@ -1,10 +1,10 @@
 from db import db, create_app
-from db import User, Item, Admin  # 必要に応じてモデルをインポート
+from db import User, Item, Admin, Contact  # 必要に応じてモデルをインポート
 
 def clear_db():
     # テーブルごとに全レコードを削除
     # db.session.query(User).delete()
-    db.session.query(Admin).delete()
+    db.session.query(Contact).delete()
     # db.session.query(Admin).delete()
 
     # コミットして変更を保存

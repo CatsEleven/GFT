@@ -1,0 +1,26 @@
+{% extends 'users/base.html' %}
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <h1 class="center-text" id="focus-target">送信完了</h1>
+                <p>お問い合わせは正常に送信されました。</p>
+                <p><i class="bi bi-check-circle-fill"></i>ご記入いただいたアドレスに確認メールを送信しました。</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* ここにCSSを追加 */
+    .center-text {
+        text-align: center;
+    }
+    
+    .bi-check-circle-fill {
+        color: green;
+    }
+</style>
+{% endblock %}

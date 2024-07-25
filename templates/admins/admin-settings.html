@@ -6,6 +6,7 @@
             <div class="mb-3">
                 <label for="icon" class="form-label">アイコン</label>
                 <div class="mb-3">
+                    <img src="{{ url_for('static', filename='uploads/icons/admins/' + user.icon) }}" alt="ユーザーアイコン" width="100">
                     <img src="{{ url_for('static', filename='icons/admins/' + user.icon) }}" alt="ユーザーアイコン" width="100">
                 </div>
                 <input type="file" name="icon" id="icon" class="form-control-file" accept=".jpg, .jpeg, .png">

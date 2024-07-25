@@ -48,6 +48,10 @@
     .button:hover {
         background-color: #0056b3;
     }
+
+    #for-contact {
+        display: block;
+    }
 </style>
 
 <body>
@@ -67,7 +71,10 @@
 
 
       <div class="contained">
-        <img src="{{ url_for('static', filename='assets/logo.jpg') }}" alt="" width="200px">
+        <a href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='assets/logo.jpg') }}" alt="" width="200px">
+        </a>
+        
       </div>
       
 
@@ -85,7 +92,7 @@
       <section>
         <ul class="top-ul">
             <li class="top-li"><a href="{{ url_for('index') }}" class="top-a">Tops</a></li>
-            <li class="top-li"><a href="{{ url_for('shirts') }}" class="top-a">T-shirts</a></li
+            <li class="top-li"><a href="{{ url_for('shirts') }}" class="top-a">T-shirts</a></li>
             <li class="top-li"><a href="{{ url_for('Goods') }}" class="top-a">Goods</a></li>
             <li class="top-li"><a href="{{ url_for('Brand') }}" class="top-a">Brand</a></li>
         </ul>
@@ -99,30 +106,16 @@
       {% block content %}
       {% endblock %}
 
-     <!-- <section class="section-clothes">
-        <h1 class="clothes-headline">Green eyes works</h1>
-        <ul class="clothes">
-            <li>
-                <a href="">
-                    <img src="./assets/images/S__111501318_0.jpg" alt="" width="100%">
-                    <div class="clothes-des">
-                        <h1>original T-shirt</h1>
-                        <p>¥6,500</p>
-                    </div>
-                </a>
-            </li>
-        </ul>
-     </section> -->
-
-
 
       <hr class="end-line"/>
 
       <div class="distance"></div>
 
      <footer>
-        <img src="{{ url_for('static', filename='assets/logo.jpg') }}" alt="" width="200px">
-
+        <a  href="{{ url_for('contact') }}" id="for-contact">お問い合わせはこちら</a>
+        <a href="{{ url_for('index') }}">
+            <img src="{{ url_for('static', filename='assets/logo.jpg') }}" alt="" width="200px">
+        </a>        
         <p>
             Tokyo meguro kamimeguro 2-44-11 <br>
             東京都 目黒区 上目黒 2-44-11

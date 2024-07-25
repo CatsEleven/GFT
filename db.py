@@ -65,3 +65,20 @@ class Admin(db.Model, UserMixin):
     created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(pytz.timezone('Asia/Tokyo')))
     updated_at = db.Column(db.DateTime, onupdate=datetime.now(pytz.timezone('Asia/Tokyo')))
     mail = db.Column(db.String)
+
+
+class Contact(db.Model):
+    __tablename__ = 'contacts'
+    
+    id = db.Column(db.Integer, primary_key=True)
+    company = db.Column(db.String(50), nullable=False)
+    request_type = db.Column(db.String(30))
+    materials = db.Column(db.String(30))
+    name = db.Column(db.String(30))
+    name_kana = db.Column(db.String(30))
+    phone = db.Column(db.String(30))
+    email = db.Column(db.String(50))
+    message = db.Column(db.String(1000))
+    created_at = db.Column(db.DateTime, nullable=False, default=datetime.now(pytz.timezone('Asia/Tokyo')))
+    updated_at = db.Column(db.DateTime, onupdate=datetime.now(pytz.timezone('Asia/Tokyo')))
+    status = db.Column(db.Integer, nullable=False, default=0)  # 0: 未対応, 1: 対応中, 2: 対応済み, 3: 削除、あとで直す

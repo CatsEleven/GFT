@@ -1,14 +1,15 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from markupsafe import Markup
 from flask_login import UserMixin, LoginManager, login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
-from db import db, User, Item, Admin, init_app
+from db import db, User, Item, Admin, Contact, init_app
 from PIL import Image
 import magic
 import uuid
 import json
+import requests
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///GFT.db'
@@ -306,6 +307,36 @@ def admin_settings():
 
     return render_template('admins/admin-settings.html', user=current_user)
 
+@app.route('/admin/contacts')
+def admin_contacts():
+    contacts = Contact.query.filter_by(status=0).all()
+    return render_template('admins/contacts-show.html', contacts=contacts)
+
+@app.route('/admin/contacts/old')
+def admin_contacts_old():
+    contacts = Contact.query.filter_by(status=1).all()
+    return render_template('admins/contacts-show-previous.html', contacts=contacts)
+
+@app.route('/contact/accept')
+def contact_accept():
+    return render_template('users/accepted.html')
+
+@app.route('/admin/delete_contact/<int:contact_id>', methods=['POST'])
+@login_required
+def delete_contact(contact_id):
+    contact = Contact.query.get_or_404(contact_id)
+    contact.status = 1
+    db.session.commit()
+    return jsonify(success=True)
+
+@app.route('/admin/change_contact/<int:item_id>/<int:new_status>', methods=['POST'])
+@login_required
+def change_contact(item_id, new_status):
+    contact = Contact.query.get_or_404(item_id)
+    contact.status = new_status
+    db.session.commit()
+    return jsonify(success=True)
+
 
 
 # ユーザーに表示する画面のルーティング
@@ -332,6 +363,69 @@ def Brand():
     items = Item.query.filter(Item.category == 'Brand', Item.status == 1, Item.stock >= 1).all()
     return render_template('users/Brand.html', items=items)
 
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == 'POST':
+        company = request.form['company']
+        request_type = request.form['request_type']
+        materials = request.form['materials']
+        name = request.form['name']
+        name_kana = request.form['name_kana']
+        phone = request.form['phone']
+        email = request.form['email']
+        message = request.form['message']
+        
+        new_contact = Contact(
+            company=company,
+            request_type=request_type,
+            materials=materials,
+            name=name,
+            name_kana=name_kana,
+            phone=phone,
+            email=email,
+            message=message
+        )
+        
+        db.session.add(new_contact)
+        db.session.commit()
+        
+        # return redirect(url_for('contact'))
+        gas_url = 'https://script.google.com/macros/s/AKfycby6V7Xy8IANDUXxMi7tY9osha5OO6R8ZvK0lkfrC4ULA8beQSGe_0pwW4fR7IkCNcA/exec'
+        # メール本文の作成
+        email_body = f"""
+以下の内容でお問い合わせを受け付けました。
+
+お名前: {name}
+お名前（カナ）: {name_kana}
+企業名: {company}
+ご依頼内容: {request_type}
+資料請求: {materials}
+電話番号: {phone}
+メールアドレス: {email}
+お問い合わせ内容:
+{message}
+
+このメールは送信専用です。申し訳ございませんが、返信はお受けしておりません。ご連絡は下記までお願い致します。
+---------------------------------
+Get From Tokyo事務局
+東京都 目黒区 上目黒 2-44-11
+contact@getfromtokyo.jp
+        """
+
+        # GASに送信するデータ
+        payload = {
+            'emailAddress': email,
+            'title': 'お問い合わせありがとうございます',
+            'body': email_body
+        }
+
+        # GAS APIを呼び出し
+        headers = {'Content-Type': 'application/json'}
+        response = requests.post(gas_url, headers=headers, data=json.dumps(payload))
+        return redirect(url_for('contact_accept')  + "#focus-target")
+    
+    return render_template('users/contact.html')
+
 
 @app.route('/Tops/<int:item_id>')
 def detail(item_id):
@@ -355,6 +449,44 @@ def login():
         return redirect(url_for('index'))
     return render_template('login.html')
 
+
+# ----------------- カート機能 -----------------
+def initialize_cart():
+    if 'cart' not in session:
+        session['cart'] = []
+
+# 商品をカートに追加するエンドポイント
+@app.route('/add_to_cart', methods=['POST'])
+def add_to_cart():
+    initialize_cart()
+    product_id = request.form.get('product_id')
+    quantity = int(request.form.get('quantity', 1))
+    
+    # カートに既に商品があるか確認
+    for item in session['cart']:
+        if item['product_id'] == product_id:
+            item['quantity'] += quantity
+            break
+    else:
+        # カートに新規商品を追加
+        session['cart'].append({'product_id': product_id, 'quantity': quantity})
+    
+    return redirect(url_for('view_cart'))
+
+# カートから商品を削除するエンドポイント
+@app.route('/remove_from_cart', methods=['POST'])
+def remove_from_cart():
+    initialize_cart()
+    product_id = request.form.get('product_id')
+    session['cart'] = [item for item in session['cart'] if item['product_id'] != product_id]
+    
+    return redirect(url_for('view_cart'))
+
+# カートの中身を表示するエンドポイント
+@app.route('/cart')
+def view_cart():
+    initialize_cart()
+    return render_template('users/cart.html', cart=session['cart'])
 
 
 if __name__ == "__main__":

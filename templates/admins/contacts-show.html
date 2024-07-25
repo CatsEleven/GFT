@@ -1,0 +1,64 @@
+{% extends 'admins/base.html' %}
+{% block content %}
+    <div class="container mt-5">
+        <h1 class="mb-4 text-center">お問い合わせ一覧</h1>
+        {% if contacts|length == 0 %}
+            <div class="alert alert-info text-center" role="alert">
+                <i class="bi bi-info-circle-fill"></i> 現在、お問い合わせはありません。
+            </div>
+        {% else %}
+            <table class="table table-striped text-center">
+                <thead>
+                    <tr>
+                        <th>企業名</th>
+                        <th>ご依頼内容</th>
+                        <th>資料請求</th>
+                        <th>お名前</th>
+                        <th>カナ</th>
+                        <th>電話番号</th>
+                        <th>メールアドレス</th>
+                        <th>お問い合わせ内容</th>
+                        <th>送信日時</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for contact in contacts %}
+                    <tr>
+                        <td>{{ contact.company }}</td>
+                        <td>{{ contact.request_type }}</td>
+                        <td>{{ contact.materials }}</td>
+                        <td>{{ contact.name }}</td>
+                        <td>{{ contact.name_kana }}</td>
+                        <td>{{ contact.phone }}</td>
+                        <td>{{ contact.email }}</td>
+                        <td>{{ contact.message }}</td>
+                        <td>{{ contact.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                        <td>
+                            <div class="status-container">
+                                <button class="btn btn-danger status-button" onclick="deleteContact('{{ contact.id }}')">削除</button>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+        <a href="{{ url_for('admin_contacts_old') }}" id="for-contact" class="btn btn-secondary mt-3">
+            <i class="bi bi-archive"></i> 過去の問い合わせ
+        </a>
+    </div>
+
+    <style>
+        th, td {
+            text-align: center;
+        }
+        td {
+            justify-content: center;
+            align-items: center;
+            height: 100px; /* 高さを適宜調整 */
+        }
+    </style>
+
+    <script src="{{ url_for('static', filename='js/deleteContact.js') }}"></script>
+{% endblock %}
